@@ -1,0 +1,95 @@
+.content {
+  flex: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  background-color: #f5f6fa;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  /* box-shadow: 0 4px 20px rgba(0,0,0,0.1); */
+  width: 100%;
+  max-width: 1300px; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+form h2 {
+  margin: 0 0 20px;
+  font-size: 1.8rem;
+  color: #333333;
+  text-align: center;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgb(69, 184, 190);
+}
+
+.form-row {
+  display: flex;
+  gap: 50px 40px;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1; 
+  min-width: 200px;
+}
+
+button {
+  align-self: center;
+  padding: 12px 30px;
+  /* margin-top: 20px; */
+  font-size: 1rem;
+  background-color: rgb(69, 184, 190);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: rgb(7, 107, 112);
+}
+
+.auth-link.forgot{
+  color: black;
+}
+
+.auth-link.forgot:hover {
+    background-color: rgb(7, 107, 112);
+  color: white ;  /* keep the same color on hover */
+  cursor: pointer;  
+}
+
+
+.message-box {
+  text-align: center;
+  background-color: rgb(69, 184, 190);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
