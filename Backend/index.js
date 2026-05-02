@@ -26,13 +26,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const PORT = process.env.PORT || 5000;
 
 // PostgreSQL connection
-const pool = new Pool({
-  user: process.env.PG_USER || "postgres",
-  host: process.env.PG_HOST || "localhost",
-  database: process.env.PG_DATABASE || "jwt_auth_db",
-  password: process.env.PG_PASSWORD || "12345678",
-  port: Number(process.env.PG_PORT || 5432),
-});
+const pool = process.env.DATABASE_URL
+  ? new Pool({ connectionString: process.env.DATABASE_URL })
+  : new Pool({
+      user: process.env.PG_USER || "postgres",
+      host: process.env.PG_HOST || "localhost",
+      database: process.env.PG_DATABASE || "jwt_auth_db",
+      password: process.env.PG_PASSWORD || "12345678",
+      port: Number(process.env.PG_PORT || 5432),
+    });
 
 //  AUTH
 
@@ -129,27 +131,27 @@ app.get("/api/auth/me", async (req, res) => {
     const user = { id: row.id, email: row.email };
     const user_profiles = row.profile_id
       ? {
-          profile_id: row.profile_id,
-          first_name: row.first_name,
-          last_name: row.last_name,
-          dob: row.dob,
-          country: row.country,
-          postal_address: row.postal_address,
-          current_address: row.current_address,
-          permanent_address: row.permanent_address,
-          religion: row.religion,
-          gender: row.gender,
-          phone_number: row.phone_number,
-          phone_number_alt: row.phone_number_alt,
-          email: row.profile_email,
-          marital_status: row.marital_status,
-          nationality: row.nationality,
-          city: row.city,
-          state: row.state,
-          languages: row.languages,
-          emergency_contact: row.emergency_contact,
-          blood_group: row.blood_group,
-        }
+        profile_id: row.profile_id,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        dob: row.dob,
+        country: row.country,
+        postal_address: row.postal_address,
+        current_address: row.current_address,
+        permanent_address: row.permanent_address,
+        religion: row.religion,
+        gender: row.gender,
+        phone_number: row.phone_number,
+        phone_number_alt: row.phone_number_alt,
+        email: row.profile_email,
+        marital_status: row.marital_status,
+        nationality: row.nationality,
+        city: row.city,
+        state: row.state,
+        languages: row.languages,
+        emergency_contact: row.emergency_contact,
+        blood_group: row.blood_group,
+      }
       : null;
 
     res.json({ user, user_profiles });
@@ -188,8 +190,8 @@ app.post("/api/profile", async (req, res) => {
       ON CONFLICT (user_id) DO UPDATE
       SET ${updateSet}, updated_at = NOW()
       RETURNING profile_id, user_id, ${columns.join(
-        ", "
-      )}, created_at, updated_at;
+      ", "
+    )}, created_at, updated_at;
     `;
 
     const result = await pool.query(sql, insertParams);
