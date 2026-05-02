@@ -206,7 +206,7 @@ app.post("/api/profile", async (req, res) => {
 
 //transporter
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -233,13 +233,14 @@ app.post("/api/auth/forgot", async (req, res) => {
     const resetLink = `http://localhost:5173/reset?token=${token}`;
 
     const mailOptions = {
-      from: '"Your App" <your-email@gmail.com>',
+      from: `"Your App" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Password Reset",
       html: `<p>Click to reset your password:</p><a href="${resetLink}">${resetLink}</a>`,
     };
 
-    await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully:", info.messageId);
 
     res.json({ message: "Reset link sent successfully!" });
   } catch (err) {
