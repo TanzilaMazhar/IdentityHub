@@ -38,7 +38,7 @@ export default function Profile({ user, setUser }) {
     }
 
     // Fetch existing profile
-    fetch("http://localhost:5000/api/auth/me", {
+    fetch("https://identityhub-2.onrender.com/api/auth/me", {
       method: "GET",
       credentials: "include",
     })
@@ -80,7 +80,7 @@ const handleSubmit = async (e) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/profile", {
+      const response = await fetch("https://identityhub-2.onrender.com/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -11,7 +11,7 @@ function SignIn({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signin", {
+      const res = await fetch("https://identityhub-2.onrender.com/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // ensures cookie is sent/received

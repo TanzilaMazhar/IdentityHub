@@ -23,7 +23,7 @@ function ResetPassword() {
 
     const verifyToken = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/verify-reset-token", {
+        const res = await fetch("https://identityhub-2.onrender.com/api/auth/verify-reset-token", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: tokenFromUrl }),
@@ -56,7 +56,7 @@ function ResetPassword() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/reset", {
+      const res = await fetch("https://identityhub-2.onrender.com/api/auth/reset", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),

@@ -20,7 +20,7 @@ export default function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
+        const res = await fetch("https://identityhub-2.onrender.com/api/auth/me", {
           method: "GET",
           credentials: "include",
         });

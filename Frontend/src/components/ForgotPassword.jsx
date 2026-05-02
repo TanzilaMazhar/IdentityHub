@@ -10,7 +10,7 @@ function ForgotPassword() {
   const handleForgot = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/auth/forgot", {
+      const res = await fetch("https://identityhub-2.onrender.com/api/auth/forgot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

@@ -6,7 +6,7 @@ export default function Navbar({ setUser }) {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch("https://identityhub-2.onrender.com/api/auth/logout", {
         method: "POST",
         credentials: "include", // ensures cookie is cleared on server
       });
