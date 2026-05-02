@@ -8,15 +8,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "crpyto": "^0.0.1-security",
+    "@vitejs/plugin-react": "^4.0.0",
     "crypto": "^1.0.1",
+    "crpyto": "^0.0.1-security",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^7.8.1",
-    "react-toastify": "^11.0.5"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.0",
+    "react-toastify": "^11.0.5",
     "vite": "^5.0.0"
   }
 }
