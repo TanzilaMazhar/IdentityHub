@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../lib/api";
 
 export default function Navbar({ setUser }) {
   const navigate = useNavigate();
 
 const handleLogout = async () => {
   try {
-    await fetch("https://identityhub-2.onrender.com/api/auth/logout", {
+    await fetch(apiUrl("/api/auth/logout"), {
       method: "POST",
       credentials: "include",
     });

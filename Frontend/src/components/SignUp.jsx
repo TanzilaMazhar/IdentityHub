@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
+import { apiUrl } from "../lib/api";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function SignUp() {
     }
 
     try {
-      const res = await fetch("https://identityhub-2.onrender.com/api/auth/signup", {
+      const res = await fetch(apiUrl("/api/auth/signup"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -31,7 +32,7 @@ function SignUp() {
         setMessage({ text: "Account created successfully!", error: false });
         setTimeout(() => navigate("/signin"), 1500); // Navigate to Sign In
       } else {
-        setMessage({ text: data.message || "Sign up failed", error: true });
+        setMessage({ text: data.error || data.message || "Sign up failed", error: true });
       }
     } catch (err) {
       setMessage({ text: "Server error", error: true });

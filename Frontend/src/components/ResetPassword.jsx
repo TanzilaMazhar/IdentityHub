@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/auth.css";
+import { apiUrl } from "../lib/api";
 
 function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -23,7 +24,7 @@ function ResetPassword() {
 
     const verifyToken = async () => {
       try {
-        const res = await fetch("https://identityhub-2.onrender.com/api/auth/verify-reset-token", {
+        const res = await fetch(apiUrl("/api/auth/verify-reset-token"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: tokenFromUrl }),
@@ -56,7 +57,7 @@ function ResetPassword() {
     }
 
     try {
-      const res = await fetch("https://identityhub-2.onrender.com/api/auth/reset", {
+      const res = await fetch(apiUrl("/api/auth/reset"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),

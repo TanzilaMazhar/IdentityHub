@@ -11,16 +11,31 @@ import cookieParser from "cookie-parser";
 import nodemailer from "nodemailer";
 
 const app = express();
+app.set("trust proxy", 1);
 
 // Middleware
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://identityhub.vercel.app",
+  ...(process.env.FRONTEND_URLS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", // local development
-      "https://identityhub-2.onrender.com", // your Render backend (if needed)
-      "https://identityhub.vercel.app", // your Vercel frontend
-      /^https:\/\/identityhub.*\.vercel\.app$/ // any Vercel preview domains
-    ],
+    origin(origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)
+      ) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`Origin ${origin} is not allowed by CORS`));
+    },
     credentials: true,
   })
 );
@@ -32,7 +47,12 @@ const PORT = process.env.PORT || 5000;
 
 // PostgreSQL connection
 const pool = process.env.DATABASE_URL
-  ? new Pool({ connectionString: process.env.DATABASE_URL })
+  ? new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: process.env.DATABASE_URL.includes("sslmode=disable")
+        ? false
+        : { rejectUnauthorized: false },
+    })
   : new Pool({
       user: process.env.PG_USER || "postgres",
       host: process.env.PG_HOST || "localhost",
@@ -95,7 +115,7 @@ app.post("/api/auth/signin", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     res.json({
@@ -237,7 +257,11 @@ app.post("/api/auth/forgot", async (req, res) => {
     // create JWT with email only
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "15m" }); // short expiry
 
-    const resetLink = `http://localhost:5173/reset?token=${token}`;
+    const frontendUrl =
+      process.env.FRONTEND_URL ||
+      allowedOrigins.find((origin) => origin.startsWith("https://")) ||
+      "http://localhost:5173";
+    const resetLink = `${frontendUrl}/reset?token=${token}`;
 
     const mailOptions = {
       from: `"Your App" <${process.env.EMAIL_USER}>`,
@@ -310,9 +334,9 @@ app.post("/api/auth/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   res.json({ message: "Logged out successfully" });
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

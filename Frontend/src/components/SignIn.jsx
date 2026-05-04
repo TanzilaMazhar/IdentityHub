@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
+import { apiUrl } from "../lib/api";
 
 function SignIn({ setUser }) {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ function SignIn({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://identityhub-2.onrender.com/api/auth/signin", {
+      const res = await fetch(apiUrl("/api/auth/signin"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // ensures cookie is sent/received
@@ -99,5 +100,4 @@ function SignIn({ setUser }) {
 }
 
 export default SignIn;
-
 

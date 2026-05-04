@@ -4,6 +4,7 @@ import ToastProvider from "./ToastProvider";
 import { toast } from "react-toastify";
 import Navbar from "./Navbar";
 import "../styles/App.css";
+import { apiUrl } from "../lib/api";
 
 export default function Profile({ user, setUser }) {
   const [profile, setProfile] = useState({
@@ -38,7 +39,7 @@ export default function Profile({ user, setUser }) {
     }
 
     // Fetch existing profile
-    fetch("https://identityhub-2.onrender.com/api/auth/me", {
+    fetch(apiUrl("/api/auth/me"), {
       method: "GET",
       credentials: "include",
     })
@@ -80,7 +81,7 @@ const handleSubmit = async (e) => {
     }
 
     try {
-      const response = await fetch("https://identityhub-2.onrender.com/api/profile", {
+      const response = await fetch(apiUrl("/api/profile"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

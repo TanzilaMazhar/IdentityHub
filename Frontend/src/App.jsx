@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { apiUrl } from "./lib/api";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -20,7 +21,7 @@ export default function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("https://identityhub-2.onrender.com/api/auth/me", {
+        const res = await fetch(apiUrl("/api/auth/me"), {
           method: "GET",
           credentials: "include",
         });

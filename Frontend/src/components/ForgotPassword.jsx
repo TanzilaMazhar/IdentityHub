@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
+import { apiUrl } from "../lib/api";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ function ForgotPassword() {
   const handleForgot = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://identityhub-2.onrender.com/api/auth/forgot", {
+      const res = await fetch(apiUrl("/api/auth/forgot"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
