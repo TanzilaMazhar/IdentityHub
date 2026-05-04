@@ -15,7 +15,12 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173", // local development
+      "https://identityhub-2.onrender.com", // your Render backend (if needed)
+      "https://identityhub.vercel.app", // your Vercel frontend
+      /^https:\/\/identityhub.*\.vercel\.app$/ // any Vercel preview domains
+    ],
     credentials: true,
   })
 );
